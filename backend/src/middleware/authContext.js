@@ -39,15 +39,39 @@ export function signPayload(value) {
   return crypto.createHmac('sha256', secret).update(String(value)).digest('hex');
 }
 
-// Attach req.user from Authorization: Bearer <token>. Never trust frontend role.
+// Final contract: server-managed session + httpOnly cookie only.
+// Cookie `gamehub_session` is the single source for the session token.
+// No Authorization/Bearer support. Frontend never receives or manages tokens
+// (the raw token is set as HttpOnly cookie on login and never returned in bodies).
+export const SESSION_COOKIE = 'gamehub_session';
+export const SESSION_MAX_AGE_SECONDS = 7 * 24 * 60 * 60;
+
+export function parseCookies(req) {
+  const header = req.headers.cookie || '';
+  const out = {};
+  header.split(';').forEach((part) => {
+    const index = part.indexOf('=');
+    if (index < 0) return;
+    const key = part.slice(0, index).trim();
+    const value = decodeURIComponent(part.slice(index + 1).trim());
+    if (key) out[key] = value;
+  });
+  return out;
+}
+
+export function getSessionToken(req) {
+  const cookies = parseCookies(req);
+  return cookies[SESSION_COOKIE] || null;
+}
+
+// Attach req.user from the server-managed session cookie. Never trust frontend role.
 export function authContext(req, _res, next) {
-  const header = req.headers.authorization || '';
-  const match = header.match(/^Bearer (.+)$/);
-  if (!match) {
+  const token = getSessionToken(req);
+  if (!token) {
     req.user = null;
     return next();
   }
-  const session = getSessionByToken(match[1]);
+  const session = getSessionByToken(token);
   req.user = session ? { id: session.userId, username: session.username, role: session.role } : null;
   return next();
 }
