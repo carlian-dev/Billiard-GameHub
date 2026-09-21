@@ -1,18 +1,21 @@
 import { ok } from '../utils/errors.js';
 import { login, logout } from '../services/auth.service.js';
-import { getSessionByToken } from '../middleware/authContext.js';
+import { getSessionToken, SESSION_COOKIE, SESSION_MAX_AGE_SECONDS } from '../middleware/authContext.js';
 
-function getBearerToken(req) {
-  const header = req.headers.authorization || '';
-  const match = header.match(/^Bearer (.+)$/);
-  return match ? match[1] : null;
+function buildSessionCookie(token, { clear = false } = {}) {
+  const secure = process.env.NODE_ENV === 'production' ? '; Secure' : '';
+  if (clear) {
+    return `${SESSION_COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0${secure}`;
+  }
+  return `${SESSION_COOKIE}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${SESSION_MAX_AGE_SECONDS}${secure}`;
 }
 
 export async function postLogin(req, res, next) {
   try {
     const { username, password } = req.body || {};
     const result = await login(username, password);
-    res.status(200).json(ok(result));
+    res.setHeader('Set-Cookie', buildSessionCookie(result.token));
+    res.status(200).json(ok({ user: result.user }));
   } catch (err) {
     next(err);
   }
@@ -20,7 +23,8 @@ export async function postLogin(req, res, next) {
 
 export async function postLogout(req, res, next) {
   try {
-    await logout(getBearerToken(req));
+    await logout(getSessionToken(req));
+    res.setHeader('Set-Cookie', buildSessionCookie('', { clear: true }));
     res.status(200).json(ok({}));
   } catch (err) {
     next(err);
@@ -29,13 +33,11 @@ export async function postLogout(req, res, next) {
 
 export async function getMe(req, res, next) {
   try {
-    const token = getBearerToken(req);
-    const session = token ? getSessionByToken(token) : null;
-    if (!session) {
+    if (!req.user) {
       res.status(401).json({ success: false, error: { code: 'UNAUTHENTICATED', message: 'Authentication required.' } });
       return;
     }
-    res.status(200).json(ok({ username: session.username, role: session.role }));
+    res.status(200).json(ok({ username: req.user.username, role: req.user.role }));
   } catch (err) {
     next(err);
   }
