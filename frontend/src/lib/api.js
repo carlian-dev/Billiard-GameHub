@@ -1,8 +1,8 @@
-// MVP 0 API client — health + auth foundation only. No feature APIs.
+// API client — health + auth foundation only. No feature APIs.
 // Uses PUBLIC VITE_API_URL only. Never put backend secrets here.
 // Auth transport: server-managed session + httpOnly cookie (credentials: include).
 // The cookie is HttpOnly and cannot be read by JS; the browser sends it automatically.
-const BASE = (import.meta.env.VITE_API_URL || 'http://localhost:3000/api').replace(/\/$/, '');
+const BASE = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
 
 async function parse(res) {
   const body = await res.json().catch(() => ({}));

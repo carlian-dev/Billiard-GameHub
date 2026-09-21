@@ -31,12 +31,12 @@ Total functional requirements: 87.
 
 | Requirement ID | Requirement | Status | Assignee |
 |---|---|---|---|
-| AD-001 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
-| AD-002 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
-| AD-003 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
-| AD-004 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
-| AD-005 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
-| AD-006 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
+| AD-001 | Official description per approved GameHub requirements source — refer to source for exact wording | To Do | PJ |
+| AD-002 | Official description per approved GameHub requirements source — refer to source for exact wording | To Do | PJ |
+| AD-003 | Official description per approved GameHub requirements source — refer to source for exact wording | To Do | PJ |
+| AD-004 | Official description per approved GameHub requirements source — refer to source for exact wording | To Do | PJ |
+| AD-005 | Official description per approved GameHub requirements source — refer to source for exact wording | To Do | JAZ |
+| AD-006 | Official description per approved GameHub requirements source — refer to source for exact wording | To Do | JAZ |
 | AD-007 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
 | AD-008 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
 | AD-009 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
@@ -69,9 +69,9 @@ Total functional requirements: 87.
 
 | Requirement ID | Requirement | Status | Assignee |
 |---|---|---|---|
-| CA-001 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
-| CA-002 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
-| CA-003 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
+| CA-001 | Official description per approved GameHub requirements source — refer to source for exact wording | To Do | JAM |
+| CA-002 | Official description per approved GameHub requirements source — refer to source for exact wording | To Do | JAM |
+| CA-003 | Official description per approved GameHub requirements source — refer to source for exact wording | To Do | JAM |
 | CA-004 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
 | CA-005 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
 | CA-006 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
@@ -104,7 +104,7 @@ Total functional requirements: 87.
 
 | Requirement ID | Requirement | Status | Assignee |
 |---|---|---|---|
-| CU-001 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
+| CU-001 | Official description per approved GameHub requirements source — refer to source for exact wording | To Do | JAZ |
 | CU-002 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
 | CU-003 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
 | CU-004 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
@@ -134,20 +134,23 @@ Total functional requirements: 87.
 | SYS-008 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
 | SYS-009 | Official description per approved GameHub requirements source — refer to source for exact wording | Not Started | Unassigned |
 
-## 7. MVP Mapping Summary (Unchanged)
+## 7. MVP Mapping Summary
 
-- MVP 0: Foundation
-- MVP 1: Tables + Rates
-- MVP 2: Reservations
-- MVP 3: Playing Sessions
-- MVP 4: Billing + F&B
-- MVP 5: Payments + Digital Receipt
-- Later: Reports, history, advanced admin features, remaining requirements.
+Authoritative sequence in `docs/mvp-roadmap.md`:
+
+- MVP 1: Foundation, Staff Access & Initial Operations
+- MVP 2: Tables & Rates
+- MVP 3: Reservations
+- MVP 4: Playing Sessions
+- MVP 5: Billing & F&B
+- MVP 6: Payments & Digital Receipts
+- MVP 7: Reports, History & Administrative Operations
 
 Do not build future MVP scope early. Business rules, MVP roadmap, and API conventions are unchanged.
 
 ## 8. Status / Assignment Fields
 
-- All rows start at `Status = Not Started`, `Assignee = Unassigned` until Carl assigns per workload targets (PJ 4/week, JAM 3/week, JAZ 3/week, total 10/week).
+- MVP 1 assignments per `docs/mvp-roadmap.md` are applied in the tables above: PJ holds AD-001 through AD-004, JAZ holds AD-005, AD-006 and CU-001, JAM holds CA-001 through CA-003, all with `Status = To Do`. Carl holds project setup, architecture, integration, review, and merge.
+- All other rows remain `Status = Not Started`, `Assignee = Unassigned` until Carl assigns per workload targets (PJ 4/week, JAM 3/week, JAZ 3/week, total 10/week). No requirement is marked implemented.
 - Update Status/Assignee only; do not edit IDs or meanings without approved source change.
 - Target branches: feature branches → integration → main; PR required for Carl review.

@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 
-// Foundation session store (in-memory for MVP 0).
-// Production evolution would persist sessions; MVP 0 proves issuance/validation shape.
+// Foundation session store (in-memory).
+// Production evolution would persist sessions; the foundation proves issuance/validation shape.
 const sessions = new Map(); // tokenHash -> { userId, username, role, createdAt }
 
 function getSecret() {

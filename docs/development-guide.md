@@ -45,9 +45,9 @@ OpenCode is the programmer/implementation agent. It is NOT the project architect
 - Use official requirement codes from the approved requirements source.
 - Do NOT invent requirement IDs, merge requirements, or rename IDs.
 - Do not build future MVP scope early.
-- MVP order: MVP 0 Foundation → MVP 1 Tables + Rates → MVP 2 Reservations → MVP 3 Playing Sessions → MVP 4 Billing + F&B → MVP 5 Payments + Digital Receipt → Later Reports/history/advanced admin.
+- MVP order (authoritative detail in `docs/mvp-roadmap.md`): MVP 1 Foundation, Staff Access & Initial Operations → MVP 2 Tables & Rates → MVP 3 Reservations → MVP 4 Playing Sessions → MVP 5 Billing & F&B → MVP 6 Payments & Digital Receipts → MVP 7 Reports, History & Administrative Operations.
 
-MVP 0 does NOT include table management, reservations, walk-in sessions, session timer, billing, F&B ordering, payments, digital receipts, reports, advanced dashboards, cashier scheduling, or reservation administration.
+Project foundation does not include table management, reservations, walk-in sessions, session timer, billing, F&B ordering, payments, digital receipts, reports, advanced dashboards, cashier scheduling, or reservation administration.
 
 ## 4. Understand / Plan / Implement / Test Cycle
 

@@ -2,7 +2,7 @@
   "name": "billiard-gamehub",
   "private": true,
   "version": "0.0.0",
-  "description": "GameHub / Billiard-GameHub — MVP 0 foundation",
+  "description": "GameHub / Billiard-GameHub — project foundation",
   "workspaces": [
     "frontend",
     "backend"

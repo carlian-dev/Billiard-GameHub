@@ -2,8 +2,9 @@
 
 A billiard table reservation and management system supporting customer reservations, walk-in sessions, playing-session tracking, table management, billing, F&B ordering, payments, digital receipts, administration, and reporting.
 
-> Foundation stage: documentation only. No application code exists yet.
-> Implementation follows MVP-first, requirement-driven development. See `AGENTS.md`.
+> Project foundation/shell exists. Documentation and architecture have been established.
+> Functional requirements are still To Do unless explicitly marked otherwise. No functional requirement is claimed as implemented.
+> Implementation follows MVP-first, requirement-driven development. See `AGENTS.md` and `docs/mvp-roadmap.md`.
 
 ## Technology Stack
 
@@ -42,8 +43,12 @@ Planned API base path: `/api/<resource>`. See `docs/architecture.md`.
 - `docs/development-guide.md` — Developer and OpenCode workflows, requirement-driven development, module boundaries, testing, Definition of Done, conflicts.
 - `docs/git-workflow.md` — Branch strategy, commits, pull requests, review/integration.
 - `docs/functional-requirements-tracking.md` — Requirement tracking model, IDs, status/assignment by ADMIN / CASHIER / CUSTOMER / SYSTEM.
+- `docs/mvp-roadmap.md` — Authoritative MVP 1–7 sequence, modules, assignments, dependencies.
+- `docs/authentication.md` — Session/cookie contract, roles, endpoints, 401/403.
+- `docs/database.md` — Atlas/driver access, `users`/`authSessions` concepts, security.
+- `docs/api-conventions.md` — Base URL, envelopes, status codes, layer responsibilities.
 - `docs/team.md` — Carl / PJ / JAM / JAZ roles, ownership, workload, communication, OpenCode usage.
 
 ## Purpose
 
-Establish the technical and process foundation (MVP 0) before building Tables + Rates (MVP 1), Reservations (MVP 2), Sessions (MVP 3), Billing + F&B (MVP 4), Payments + Receipt (MVP 5), and later reports and advanced admin features.
+Establish the technical and process foundation (see `docs/mvp-roadmap.md`) before building, in order: MVP 1 Foundation, Staff Access & Initial Operations → MVP 2 Tables & Rates → MVP 3 Reservations → MVP 4 Playing Sessions → MVP 5 Billing & F&B → MVP 6 Payments & Digital Receipts → MVP 7 Reports, History & Administrative Operations.

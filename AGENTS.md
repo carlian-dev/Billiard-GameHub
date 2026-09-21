@@ -1,7 +1,8 @@
 # AGENTS.md — GameHub / Billiard-GameHub
 
-> Documentation-only foundation. No application code exists yet.
-> Source of truth: approved architecture, requirements, and development rules for this project.
+> Project foundation/shell exists alongside this documentation. Architecture and requirements are established.
+> Functional requirements are still To Do unless explicitly marked otherwise. No functional requirement should be claimed as implemented.
+> Source of truth: approved architecture, requirements, and development rules for this project, including `docs/mvp-roadmap.md`, `docs/authentication.md`, `docs/database.md`, and `docs/api-conventions.md`.
 > Do not invent requirements, architecture, or requirement IDs.
 
 ## 1. OpenCode Role and Behavior
@@ -105,7 +106,7 @@ Planned base path: `/api/<resource>` — see `docs/architecture.md`. Do not impl
 
 - MongoDB Atlas document database only.
 - Use official MongoDB Node.js Driver.
-- Initial planned collections only: `users`, `tables`, `rates`, `reservations`, `sessions`, `transactions`, `products`, `activity_logs`.
+- Initial planned collections only: `users`, `authSessions` (MVP 1 authentication sessions, separate from future playing-session `sessions`), `tables`, `rates`, `reservations`, `sessions` (future playing sessions), `transactions`, `products`, `activity_logs`.
 - These are architecture definitions. Do not create collections as part of documentation or unrelated work.
 - Keep database operations in repositories, separated from business logic.
 - Keep domain concepts separate:
@@ -141,19 +142,19 @@ Planned base path: `/api/<resource>` — see `docs/architecture.md`. Do not impl
 
 ## 7. MVP Rules
 
-MVP-first modular development:
+MVP-first modular development (authoritative sequence in `docs/mvp-roadmap.md`):
 
-- MVP 0: Foundation
-- MVP 1: Tables + Rates
-- MVP 2: Reservations
-- MVP 3: Playing Sessions
-- MVP 4: Billing + F&B
-- MVP 5: Payments + Digital Receipt
-- Later: Reports, history, advanced admin features, remaining requirements.
+- MVP 1: Foundation, Staff Access & Initial Operations
+- MVP 2: Tables & Rates
+- MVP 3: Reservations
+- MVP 4: Playing Sessions
+- MVP 5: Billing & F&B
+- MVP 6: Payments & Digital Receipts
+- MVP 7: Reports, History & Administrative Operations
 
-MVP 0 scope only: repo/project setup, React+Vite foundation, Bun runtime/tooling + Express foundation, MongoDB Atlas connection foundation, official driver, env config, basic API/frontend structure, centralized error handling, auth/RBAC foundation, basic security, health-check endpoint, frontend-to-backend communication.
+Project foundation scope: repo/project setup, React+Vite foundation, Bun runtime/tooling + Express foundation, MongoDB Atlas connection foundation, official driver, env config, basic API/frontend structure, centralized error handling, auth/RBAC foundation, basic security, health-check endpoint, frontend-to-backend communication.
 
-MVP 0 does NOT include table management, reservations, walk-in sessions, session timer, billing, F&B ordering, payments, digital receipts, reports, advanced dashboards, cashier scheduling, or reservation administration. Do not implement later MVP features during MVP 0.
+Project foundation does not include table management, reservations, walk-in sessions, session timer, billing, F&B ordering, payments, digital receipts, reports, advanced dashboards, cashier scheduling, or reservation administration. Implement assigned MVP scope only; do not build later MVP features early.
 
 ## 8. Development Workflow
 
@@ -169,7 +170,7 @@ Requirement-driven development only:
 8. Test.
 9. Report.
 
-See `docs/development-guide.md` for Definition of Done and conflict handling. See `docs/functional-requirements-tracking.md` for tracking. Preserve official requirement IDs. Do not invent IDs.
+See `docs/development-guide.md` for Definition of Done and conflict handling. See `docs/functional-requirements-tracking.md` for tracking. See `docs/mvp-roadmap.md` for the authoritative MVP sequence, `docs/authentication.md` for the session/cookie contract, `docs/database.md` for `users`/`authSessions` concepts, and `docs/api-conventions.md` for envelopes, status codes, and layer responsibilities. Preserve official requirement IDs. Do not invent IDs.
 
 ## 9. Scope Control
 

@@ -1,4 +1,4 @@
-// Basic security headers + JSON/CORS hardening for MVP 0 foundation.
+// Basic security headers + JSON/CORS hardening for the project foundation.
 export function securityHeaders(req, res, next) {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');

@@ -34,7 +34,7 @@ Work is requirement-driven. Use official requirement codes. Do not invent IDs.
 - Carl owns cross-cutting foundation and integration.
 - Feature developers own assigned requirements end-to-end (implement → test → PR).
 - OpenCode does not independently redefine requirements or architecture and does not modify unrelated modules.
-- MVP-first order: MVP 0 Foundation → MVP 1 Tables + Rates → MVP 2 Reservations → MVP 3 Playing Sessions → MVP 4 Billing + F&B → MVP 5 Payments + Digital Receipt → Later Reports/history/advanced features.
+- MVP-first order (authoritative detail in `docs/mvp-roadmap.md`): MVP 1 Foundation, Staff Access & Initial Operations → MVP 2 Tables & Rates → MVP 3 Reservations → MVP 4 Playing Sessions → MVP 5 Billing & F&B → MVP 6 Payments & Digital Receipts → MVP 7 Reports, History & Administrative Operations.
 
 ## 5. Communication / Dependency Rules
 

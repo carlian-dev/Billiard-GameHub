@@ -3,7 +3,7 @@ import { ApiError } from '../utils/errors.js';
 import { findUserByUsername } from '../repositories/user.repository.js';
 import { createSession, destroySession } from '../middleware/authContext.js';
 
-// MVP 0 auth foundation.
+// Auth foundation.
 // - Securely hashes passwords (scrypt) for demo/foundation users.
 // - Authenticates server-side; never trusts frontend-supplied role.
 // - Establishes a server-side session token and identifies the user on later requests.

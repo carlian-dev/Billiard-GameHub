@@ -36,7 +36,7 @@ Routes → Controllers → Services → Repositories → Official MongoDB Node.j
 - **Services:** Contain GameHub business logic, enforce business rules, coordinate operations between modules/repositories.
 - **Repositories:** Handle MongoDB data access. Keep database operations separated from business logic. Use official MongoDB Node.js Driver only.
 
-Cross-cutting foundation (MVP 0 direction): centralized error handling foundation, authentication foundation, RBAC foundation, basic security foundation, health-check endpoint, frontend-to-backend communication.
+Cross-cutting foundation: centralized error handling foundation, authentication foundation, RBAC foundation, basic security foundation, health-check endpoint, frontend-to-backend communication.
 
 ## 4. Module Boundaries
 
@@ -75,10 +75,11 @@ Role boundary:
 Initial planned collections:
 
 - `users`
+- `authSessions` (MVP 1 authentication sessions; conceptually separate from future playing-session `sessions` below)
 - `tables`
 - `rates`
 - `reservations`
-- `sessions`
+- `sessions` (future playing sessions, not authentication sessions)
 - `transactions`
 - `products`
 - `activity_logs`
@@ -203,4 +204,4 @@ Do not expose stack traces, database internals, credentials, secrets, or passwor
 - `.env` must never be committed.
 - `.env.example` should document required configuration.
 - Never expose backend secrets through `VITE_*` frontend variables.
-- Planned MVP 0 items: env config, basic API/frontend structure, centralized error handling, auth/RBAC foundation, basic security, health-check endpoint.
+- Planned foundation items: env config, basic API/frontend structure, centralized error handling, auth/RBAC foundation, basic security, health-check endpoint.

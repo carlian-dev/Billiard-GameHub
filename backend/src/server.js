@@ -1,7 +1,7 @@
 import { createApp } from './app.js';
 import { connectDb, isDbConfigured } from './db/mongo.js';
 
-const PORT = Number(process.env.PORT || 3000);
+const PORT = Number(process.env.PORT || 5000);
 
 async function boot() {
   if (isDbConfigured()) {

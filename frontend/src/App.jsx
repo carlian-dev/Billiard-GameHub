@@ -22,7 +22,7 @@ export default function App() {
 
   return (
     <div style={{ fontFamily: 'system-ui, sans-serif', padding: 24, maxWidth: 720 }}>
-      <h1>GameHub — MVP 0 Foundation</h1>
+      <h1>GameHub — Project Foundation</h1>
       <p>React + Vite + JavaScript frontend (Bun) talking to Express backend.</p>
       <p>
         API base: <code>{getApiBase()}</code>
@@ -31,7 +31,7 @@ export default function App() {
       <pre style={{ background: '#f4f4f4', padding: 12, borderRadius: 8 }}>
         {JSON.stringify(health, null, 2)}
       </pre>
-      <p>MVP 0 only. No tables, reservations, sessions, billing, F&amp;B, payments, or reports here.</p>
+      <p>Foundation only. No tables, reservations, sessions, billing, F&amp;B, payments, or reports here.</p>
     </div>
   );
 }

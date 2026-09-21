@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 
 // MongoDB Atlas connection foundation (official driver only).
-// No Mongoose / Prisma / ORM. No feature collections created in MVP 0.
+// No Mongoose / Prisma / ORM. No feature collections created in the project foundation.
 let client = null;
 let db = null;
 let connected = false;

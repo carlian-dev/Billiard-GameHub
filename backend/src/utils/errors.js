@@ -1,4 +1,4 @@
-// Centralized error + envelope helpers (MVP 0 foundation).
+// Centralized error + envelope helpers (foundation).
 // Success: { success: true, data: {} }
 // Error: { success: false, error: { code, message }, details?[] }
 

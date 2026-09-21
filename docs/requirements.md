@@ -198,13 +198,17 @@ Detailed transition enforcement belongs to future MVPs. Do not implement state m
 
 ## 7. MVP Roadmap
 
-- **MVP 0: Foundation** — repo/project setup, React+Vite foundation, Bun runtime/tooling + Express foundation, MongoDB Atlas connection foundation, official driver, env config, basic API/frontend structure, centralized error handling, auth/RBAC foundation, basic security, health-check endpoint, frontend-to-backend communication.
-- **MVP 1: Tables + Rates**
-- **MVP 2: Reservations**
-- **MVP 3: Playing Sessions**
-- **MVP 4: Billing + F&B**
-- **MVP 5: Payments + Digital Receipt**
-- **Later:** Reports, history, advanced administrative features, and other remaining requirements.
+Authoritative sequence in `docs/mvp-roadmap.md`:
+
+- **MVP 1: Foundation, Staff Access & Initial Operations**
+- **MVP 2: Tables & Rates**
+- **MVP 3: Reservations**
+- **MVP 4: Playing Sessions**
+- **MVP 5: Billing & F&B**
+- **MVP 6: Payments & Digital Receipts**
+- **MVP 7: Reports, History & Administrative Operations**
+
+The completed project foundation/shell (repo/project setup, React+Vite foundation, Bun runtime/tooling + Express foundation, MongoDB Atlas connection foundation, official driver, env config, basic API/frontend structure, centralized error handling, auth/RBAC foundation, basic security, health-check endpoint, frontend-to-backend communication) underpins MVP 1.
 
 ## 8. Confirmed Requirements vs Future Scope
 
@@ -212,7 +216,7 @@ Detailed transition enforcement belongs to future MVPs. Do not implement state m
 
 - Technology stack, 3-layer architecture, collection plan, domain separation, business rules, state machines, API/response conventions, validation/error conventions, auth/RBAC architecture direction, MVP roadmap, team/workflow/Git rules — as documented here and in `architecture.md`.
 
-### Future scope (do not build during MVP 0)
+### Future scope (build only assigned MVP scope)
 
 - Table management, reservations, walk-in sessions, session timer, billing, F&B ordering, payments, digital receipts, reports, advanced dashboards, cashier scheduling, reservation administration.
 - Later MVP features must not be built early.
