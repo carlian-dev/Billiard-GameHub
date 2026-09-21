@@ -1,0 +1,15 @@
+{
+  "name": "gamehub-backend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "GameHub Express backend — MVP 0 foundation",
+  "scripts": {
+    "dev": "bun run src/server.js",
+    "start": "bun run src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongodb": "^6.9.0"
+  }
+}

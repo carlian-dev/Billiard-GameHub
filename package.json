@@ -1,0 +1,15 @@
+{
+  "name": "billiard-gamehub",
+  "private": true,
+  "version": "0.0.0",
+  "description": "GameHub / Billiard-GameHub — MVP 0 foundation",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev:backend": "bun run --cwd backend dev",
+    "dev:frontend": "bun run --cwd frontend dev",
+    "start:backend": "bun run --cwd backend start"
+  }
+}

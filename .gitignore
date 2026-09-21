@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+bun.lockb
+dist/
+build/
+
+# Env (never commit real secrets)
+.env
+.env.local
+.env.*.local
+
+# Frontend
+frontend/dist/
+frontend/.vite/
+
+# Backend
+backend/dist/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
