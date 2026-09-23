@@ -37,7 +37,7 @@ export async function getMe(req, res, next) {
       res.status(401).json({ success: false, error: { code: 'UNAUTHENTICATED', message: 'Authentication required.' } });
       return;
     }
-    res.status(200).json(ok({ username: req.user.username, role: req.user.role }));
+    res.status(200).json(ok({ user: { id: req.user.id, username: req.user.username, displayName: req.user.displayName, role: req.user.role } }));
   } catch (err) {
     next(err);
   }

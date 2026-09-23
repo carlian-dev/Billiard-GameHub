@@ -6,7 +6,9 @@
   "description": "GameHub Express backend — project foundation",
   "scripts": {
     "dev": "bun run src/server.js",
-    "start": "bun run src/server.js"
+    "start": "bun run src/server.js",
+    "seed:admin": "bun run src/scripts/seedAdmin.js",
+    "test": "bun test"
   },
   "dependencies": {
     "express": "^4.19.2",

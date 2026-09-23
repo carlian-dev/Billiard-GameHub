@@ -42,3 +42,30 @@ export async function logout() {
   });
   return parse(res);
 }
+
+export async function createCashier({ username, password, displayName }) {
+  const res = await fetch(`${BASE}/users`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ username, password, displayName }),
+  });
+  return parse(res);
+}
+
+export async function fetchCashiers() {
+  const res = await fetch(`${BASE}/users`, {
+    credentials: 'include',
+  });
+  return parse(res);
+}
+
+export async function updateCashier(id, patch) {
+  const res = await fetch(`${BASE}/users/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(patch),
+  });
+  return parse(res);
+}

@@ -1,29 +1,11 @@
 import crypto from 'node:crypto';
 import { ApiError } from '../utils/errors.js';
+import { verifyPassword } from '../utils/password.js';
 import { findUserByUsername } from '../repositories/user.repository.js';
-import { createSession, destroySession } from '../middleware/authContext.js';
+import { hashToken, SESSION_MAX_AGE_SECONDS } from '../middleware/authContext.js';
+import { createAuthSession, destroyAuthSessionByTokenHash } from '../repositories/authSession.repository.js';
 
-// Auth foundation.
-// - Securely hashes passwords (scrypt) for demo/foundation users.
-// - Authenticates server-side; never trusts frontend-supplied role.
-// - Establishes a server-side session token and identifies the user on later requests.
-// DB lookup is attempted first; foundation demo users allow verification without feature data.
-
-function hashPassword(password, salt) {
-  return crypto.scryptSync(String(password), salt, 64).toString('hex');
-}
-
-function buildDemoUsers() {
-  // Demo-only foundation credentials (overridable via env for local verification).
-  // Real ADMIN/CASHIER provisioning belongs to later MVPs.
-  const adminPassword = process.env.DEMO_ADMIN_PASSWORD || 'Admin123!';
-  const cashierPassword = process.env.DEMO_CASHIER_PASSWORD || 'Cashier123!';
-  const salt = 'mvp0-foundation-salt';
-  return [
-    { id: 'demo-admin', username: 'admin', role: 'ADMIN', salt, hash: hashPassword(adminPassword, salt) },
-    { id: 'demo-cashier', username: 'cashier', role: 'CASHIER', salt, hash: hashPassword(cashierPassword, salt) },
-  ];
-}
+const SESSION_DAYS = 7;
 
 function validateLoginInput(username, password) {
   const details = [];
@@ -38,41 +20,42 @@ function validateLoginInput(username, password) {
   }
 }
 
+function toPublicUser(user) {
+  return {
+    id: String(user._id || user.id),
+    username: user.username,
+    displayName: user.displayName,
+    role: user.role,
+  };
+}
+
 export async function login(username, password) {
   validateLoginInput(username, password);
   const cleanUsername = username.trim();
 
-  // 1) Try repository (DB) user — shape: { _id/username/passwordHash/role }.
-  const dbUser = await findUserByUsername(cleanUsername).catch(() => null);
-  if (dbUser && dbUser.passwordHash) {
-    const parts = String(dbUser.passwordHash).split(':');
-    if (parts.length === 2) {
-      const [salt, expected] = parts;
-      const actual = hashPassword(password, salt);
-      if (crypto.timingSafeEqual(Buffer.from(actual), Buffer.from(expected))) {
-        const user = { id: String(dbUser._id || dbUser.username), username: dbUser.username, role: dbUser.role };
-        const token = createSession(user);
-        return { user: { username: user.username, role: user.role }, token };
-      }
-    }
+  const user = await findUserByUsername(cleanUsername);
+  if (!user || user.status !== 'ACTIVE' || !verifyPassword(password, user.passwordHash)) {
+    // Generic failure: do not reveal whether the account exists, is archived, or the password was wrong.
     throw new ApiError(401, 'UNAUTHENTICATED', 'Invalid username or password.');
   }
 
-  // 2) Foundation demo users (no feature collections required).
-  const demo = buildDemoUsers().find((u) => u.username === cleanUsername);
-  if (!demo) {
-    throw new ApiError(401, 'UNAUTHENTICATED', 'Invalid username or password.');
-  }
-  const actual = hashPassword(password, demo.salt);
-  if (!crypto.timingSafeEqual(Buffer.from(actual), Buffer.from(demo.hash))) {
-    throw new ApiError(401, 'UNAUTHENTICATED', 'Invalid username or password.');
-  }
-  const user = { id: demo.id, username: demo.username, role: demo.role };
-  const token = createSession(user);
-  return { user: { username: user.username, role: user.role }, token };
+  const token = crypto.randomBytes(32).toString('hex');
+  const now = new Date();
+  await createAuthSession({
+    tokenHash: hashToken(token),
+    userId: user._id,
+    createdAt: now,
+    expiresAt: new Date(now.getTime() + SESSION_DAYS * 24 * 60 * 60 * 1000),
+  });
+
+  return { user: toPublicUser(user), token };
 }
 
 export async function logout(token) {
-  destroySession(token);
+  if (token) {
+    await destroyAuthSessionByTokenHash(hashToken(token));
+  }
   return {};
 }
+
+export { SESSION_MAX_AGE_SECONDS, toPublicUser };

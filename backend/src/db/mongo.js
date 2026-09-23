@@ -43,3 +43,12 @@ export async function checkDb() {
     return { configured: true, connected: false };
   }
 }
+
+export async function closeDb() {
+  if (client) {
+    await client.close();
+  }
+  client = null;
+  db = null;
+  connected = false;
+}

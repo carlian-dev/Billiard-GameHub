@@ -1,50 +1,18 @@
 import crypto from 'node:crypto';
+import { findAuthSessionByTokenHash, touchAuthSession } from '../repositories/authSession.repository.js';
+import { findUserById } from '../repositories/user.repository.js';
 
-// Foundation session store (in-memory).
-// Production evolution would persist sessions; the foundation proves issuance/validation shape.
-const sessions = new Map(); // tokenHash -> { userId, username, role, createdAt }
-
-function getSecret() {
-  return process.env.AUTH_SECRET || 'mvp0-dev-secret-change-me';
-}
+// Server-managed session + httpOnly cookie contract.
+// Sessions persist in MongoDB `authSessions`; this middleware resolves the cookie token
+// server-side and attaches the authenticated staff identity to the request.
+// Cookie `gamehub_session` is the single source for the session token.
+// No Authorization/Bearer support. Frontend never receives or manages tokens.
+export const SESSION_COOKIE = 'gamehub_session';
+export const SESSION_MAX_AGE_SECONDS = 7 * 24 * 60 * 60;
 
 export function hashToken(token) {
   return crypto.createHash('sha256').update(String(token)).digest('hex');
 }
-
-export function createSession(user) {
-  const token = crypto.randomBytes(32).toString('hex');
-  const tokenHash = hashToken(token);
-  sessions.set(tokenHash, {
-    userId: user.id,
-    username: user.username,
-    role: user.role,
-    createdAt: new Date().toISOString(),
-  });
-  return token;
-}
-
-export function getSessionByToken(token) {
-  if (!token) return null;
-  return sessions.get(hashToken(token)) || null;
-}
-
-export function destroySession(token) {
-  if (!token) return false;
-  return sessions.delete(hashToken(token));
-}
-
-export function signPayload(value) {
-  const secret = getSecret();
-  return crypto.createHmac('sha256', secret).update(String(value)).digest('hex');
-}
-
-// Final contract: server-managed session + httpOnly cookie only.
-// Cookie `gamehub_session` is the single source for the session token.
-// No Authorization/Bearer support. Frontend never receives or manages tokens
-// (the raw token is set as HttpOnly cookie on login and never returned in bodies).
-export const SESSION_COOKIE = 'gamehub_session';
-export const SESSION_MAX_AGE_SECONDS = 7 * 24 * 60 * 60;
 
 export function parseCookies(req) {
   const header = req.headers.cookie || '';
@@ -64,14 +32,32 @@ export function getSessionToken(req) {
   return cookies[SESSION_COOKIE] || null;
 }
 
-// Attach req.user from the server-managed session cookie. Never trust frontend role.
-export function authContext(req, _res, next) {
-  const token = getSessionToken(req);
-  if (!token) {
-    req.user = null;
+// Attach req.user from the server-managed persisted session. Never trust frontend role.
+export async function authContext(req, _res, next) {
+  try {
+    req.user = await resolveUser(req);
     return next();
+  } catch (err) {
+    return next(err);
   }
-  const session = getSessionByToken(token);
-  req.user = session ? { id: session.userId, username: session.username, role: session.role } : null;
-  return next();
+}
+
+export async function resolveUser(req) {
+  const token = getSessionToken(req);
+  if (!token) return null;
+
+  const tokenHash = hashToken(token);
+  const session = await findAuthSessionByTokenHash(tokenHash);
+  if (!session) return null;
+  if (new Date(session.expiresAt).getTime() <= Date.now()) return null;
+  const user = await findUserById(session.userId);
+  if (!user || user.status !== 'ACTIVE') return null;
+
+  touchAuthSession(tokenHash).catch(() => {});
+  return {
+    id: String(user._id),
+    username: user.username,
+    displayName: user.displayName,
+    role: user.role,
+  };
 }
